@@ -1,0 +1,18 @@
+{
+  "data": [
+    {
+      "name": "thangpham",
+      "stock": 2000,
+      "price": 2000,
+      "desc": "dep dep",
+      "id": 2
+    },
+    {
+      "name": "thangpham",
+      "stock": 40,
+      "price": 2000,
+      "desc": "dep dep",
+      "id": 3
+    }
+  ]
+}
