@@ -9,37 +9,37 @@
                 <div class="w-[100%] h-[17%]">
                     <div class="w-full h-[70%]">
                         <label for="">Name :</label>
-                        <input  type="text" v-bind="name" class="w-full h-[40%] mt-2 rounded-full border-[1px] border-[#A9A9A9] pl-2" />
+                        <input  type="text" v-model="name.value.value" class="w-full h-[40%] mt-2 rounded-full border-[1px] border-[#A9A9A9] pl-2" />
                     </div>
                     <div class="w-full h-[30%]">
-                        <p class="pl-2 text-red-600">{{errors.name}}</p>
+                        <p class="pl-2 text-red-600">{{name.errorMessage}}</p>
                     </div>
                 </div>
                 <div class="w-[100%] h-[17%]">
                     <div class="w-full h-[70%]">
                         <label for="">In Stock :</label>
-                        <input  type="number" v-bind="stock"  class="w-full h-[40%] mt-2 rounded-full border-[1px] border-[#A9A9A9] pl-2" />
+                        <input  type="number" v-model="stock.value.value"  class="w-full h-[40%] mt-2 rounded-full border-[1px] border-[#A9A9A9] pl-2" />
                     </div>
                     <div class="w-full h-[30%]">
-                        <p class="pl-2 text-red-600">{{errors.stock}}</p>
+                        <p class="pl-2 text-red-600">{{stock.errorMessage}}</p>
                     </div>
                 </div>
                 <div class="w-[100%] h-[17%]">
                     <div class="w-full h-[70%]">
                         <label for="">Price :</label>
-                        <input  type="number" v-bind="price" class="w-full h-[40%] mt-2 rounded-full border-[1px] border-[#A9A9A9] pl-2" />
+                        <input  type="number" v-model="price.value.value" class="w-full h-[40%] mt-2 rounded-full border-[1px] border-[#A9A9A9] pl-2" />
                     </div>
                     <div class="w-full h-[30%]">
-                        <p class="pl-2 text-red-600">{{errors.price}}</p>
+                        <p class="pl-2 text-red-600">{{price.errorMessage}}</p>
                     </div>
                 </div>
                 <div class="w-[100%] h-[17%]">
                     <div class="w-full h-[70%]">
                         <label for="">Description :</label>
-                        <input  type="text" v-bind="desc" class="w-full h-[40%] mt-2 rounded-full border-[1px] border-[#A9A9A9] pl-2" />
+                        <input  type="text" v-model="desc.value.value" class="w-full h-[40%] mt-2 rounded-full border-[1px] border-[#A9A9A9] pl-2" />
                     </div>
                     <div class="w-full h-[30%]">
-                        <p class="pl-2 text-red-600">{{errors.desc}}</p>
+                        <p class="pl-2 text-red-600">{{errors.errorMessage}}</p>
                     </div>
                 </div>
                 <div class="w-[100%] h-[17%]">
@@ -53,7 +53,7 @@
 <script setup>
 import {defineProps} from 'vue'
 import { storeData } from '../stores';
-import { useForm } from "vee-validate";
+import { useForm, useField } from "vee-validate";
 import * as yup from "yup";
 const {id} = defineProps(["id"]);
 const emit = defineEmits();
@@ -64,7 +64,7 @@ const validationSchema = yup.object().shape({
     price : yup.number().required(),
     desc : yup.string().required(),
 })
-const { errors, handleSubmit, defineInputBinds } = useForm({
+const { errors, handleSubmit, values } = useForm({
     validationSchema
 })
 
@@ -74,10 +74,10 @@ const onSubmit = handleSubmit((value , {resetForm}) => {
     resetForm();
     emit('update', newData);
 })
-const stock = defineInputBinds('stock');
-const name = defineInputBinds('name');
-const price = defineInputBinds('price');
-const desc = defineInputBinds('desc');
+const name = useField('name', values);
+const stock = useField('stock', values);
+const price = useField('price', values);
+const desc = useField('desc', values);
 const handEmit = () => {
     store.handChangeStateModel();
 }
