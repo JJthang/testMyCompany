@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 
-export const StoreData = defineStore("listData", () => {
+export const storeData = defineStore("listData", () => {
   const listData = ref([
     {
       name: "thangpham",
@@ -20,33 +20,34 @@ export const StoreData = defineStore("listData", () => {
   ]);
   const model = ref(false);
 
-  const ListAllData = computed(() => listData.value);
-  const StateModel = computed(() => model.value);
-  function handAddElement(formdata) {
+  const handAddElement = (formdata) => {
     listData.value.push(formdata);
-  }
-  function handChangeStateModel() {
+  };
+  const handChangeStateModel = () => {
     model.value = !model.value;
-  }
-  function handDeleteElement(id) {
+  };
+  const handDeleteElement = (id) => {
     listData.value = listData.value.filter((item) => item.id != id);
-  }
-  function handUpdate(index, dataItem) {
-    this.listData[index] = dataItem;
+  };
+  const handUpdate = (index, dataItem) => {
+    listData.value[index] = dataItem;
     model.value = false;
-  }
-  function handSearchData(value) {
+  };
+  const handUpdateName = (item, id) => {
+    listData.value[id] = item;
+  };
+  const handSearchData = (value) => {
+    console.log(value);
     listData.value = listData.value.filter((item) =>
       item.name.trim().toLowerCase().includes(value.trim().toLowerCase())
     );
-  }
+  };
   return {
     model,
     listData,
-    ListAllData,
-    StateModel,
     handSearchData,
     handUpdate,
+    handUpdateName,
     handDeleteElement,
     handChangeStateModel,
     handAddElement,
